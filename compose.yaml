@@ -73,7 +73,7 @@ services:
       - openssh:/var/openssh:ro
       - libicu:/var/libicu:ro
       - libcrypto:/var/libcrypto:ro
-      - fonts:/usr/local/share/fonts
+      # - fonts:/usr/local/share/fonts
     extends:
       service: common
       file: ./common.yaml
@@ -88,12 +88,12 @@ services:
       file: ./common.yaml
 
 volumes:
-  fonts:
-    name: fonts
   root:
     name: root
   node:
     name: node
+  # fonts:
+  #   name: fonts
   # dotnet:
   #   name: dotnet
   pwsh:
