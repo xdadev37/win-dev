@@ -1,0 +1,160 @@
+name: win-dev
+
+services:
+  node:
+    image: node
+    entrypoint: /usr/bin/tail -f /dev/null
+    volumes:
+      - node:/usr/local/bin
+      - yarn:/opt/yarn-v1.22.19
+    extends:
+      service: common
+      file: ./common.yaml
+
+  dotnet:
+    image: mcr.microsoft.com/dotnet/sdk
+    entrypoint: /usr/bin/tail -f /dev/null
+    volumes:
+      - dotnet:/usr/share/dotnet
+    extends:
+      service: common
+      file: ./common.yaml
+
+  git:
+    image: bitnami/git
+    entrypoint: /usr/bin/tail -f /dev/null
+    volumes:
+      - git:/opt/bitnami/git
+      - openssh:/usr/bin
+      - libcrypto:/usr/lib/x86_64-linux-gnu
+    extends:
+      service: common
+      file: ./common.yaml
+
+  sqledge:
+    image: mcr.microsoft.com/azure-sql-edge
+    cap_add:
+      - "SYS_PTRACE"
+    environment:
+      ACCEPT_EULA: "1"
+      MSSQL_SA_PASSWORD: "4696048@Saman@Tabesh!"
+      MSSQL_PID: "Premium"
+    volumes:
+      - sqledge:/var/opt/mssql
+    extends:
+      service: common
+      file: ./common.yaml
+
+  powershell:
+    image: mcr.microsoft.com/powershell
+    entrypoint: /usr/bin/tail -f /dev/null
+    volumes:
+      - pwsh:/opt/microsoft/powershell/7
+      - libicu:/usr/lib/x86_64-linux-gnu
+    extends:
+      service: common
+      file: ./common.yaml
+
+  ubuntu:
+    image: ubuntu
+    entrypoint: /usr/bin/tail -f /dev/null
+    volumes:
+      - bin:/bin
+      - userBin:/usr/bin
+      - sbin:/sbin
+      - userSbin:/usr/sbin
+      - localBin:/usr/local/bin
+      - localSbin:/usr/local/sbin
+    extends:
+      service: common
+      file: ./common.yaml
+
+  docker:
+    image: docker
+    privileged: true
+    volumes:
+      - docker:/usr/local/bin
+    extends:
+      service: common
+      file: ./common.yaml
+
+  # mssql:
+  #   image: mcr.microsoft.com/mssql/server
+  #   environment:
+  #     ACCEPT_EULA: "Y"
+  #     MSSQL_SA_PASSWORD: "4696048@Saman@Tabesh!"
+  #     MSSQL_PID: "Express"
+  #   volumes:
+  #     - mssql:/var/opt/mssql
+  #   extends:
+  #     service: common
+  #     file: ./common.yaml
+
+  vscode:
+    image: gitpod/openvscode-server
+    user: root
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/dotnet:/var/yarn/bin:/var/node:/var/pwsh:/var/docker:/var/git/bin:/var/openssh
+      LD_LIBRARY_PATH: /var/libcrypto:/var/libicu
+    volumes:
+      - vscode:/home/workspace
+      - /home/${USERNAME}/.ssh:/root/.ssh
+      - /home/${USERNAME}:/home/${USERNAME}
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - dotnet:/var/dotnet:ro
+      - docker:/var/docker:ro
+      - node:/var/node:ro
+      - pwsh:/var/pwsh:ro
+      - yarn:/var/yarn:ro
+      - git:/var/git:ro
+      - openssh:/var/openssh:ro
+      - libicu:/var/libicu:ro
+      - libcrypto:/var/libcrypto:ro
+      - bin:/bin:ro
+      - userBin:/usr/bin:ro
+      - sbin:/sbin:ro
+      - userSbin:/usr/sbin:ro
+      - localBin:/usr/local/bin:ro
+      - localSbin:/usr/local/sbin:ro
+      - /home/${USERNAME}/.local/share/fonts:/usr/local/share/fonts:ro
+    extends:
+      service: common
+      file: ./common.yaml
+
+volumes:
+  bin:
+    name: bin
+  userBin:
+    name: userBin
+  sbin:
+    name: sbin
+  userSbin:
+    name: userSbin
+  localBin:
+    name: localBin
+  localSbin:
+    name: localSbin
+  vscode:
+    name: vscode
+  node:
+    name: node
+  dotnet:
+    name: dotnet
+  pwsh:
+    name: pwsh
+  docker:
+    name: docker
+  libicu:
+    name: libicu
+  yarn:
+    name: yarn
+  mssql:
+    name: mssql
+  sqledge:
+    name: sqledge
+  git:
+    name: git
+  openssh:
+    name: openssh
+  libcrypto:
+    name: libcrypto

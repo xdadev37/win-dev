@@ -1,0 +1,6 @@
+name: common
+
+services:
+  common:
+    network_mode: host
+    restart: always
