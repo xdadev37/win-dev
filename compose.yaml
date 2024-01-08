@@ -11,14 +11,14 @@ services:
       service: common
       file: ./common.yaml
 
-  dotnet:
-    image: mcr.microsoft.com/dotnet/sdk
-    entrypoint: /usr/bin/tail -f /dev/null
-    volumes:
-      - dotnet:/usr/share/dotnet
-    extends:
-      service: common
-      file: ./common.yaml
+  # dotnet:
+  #   image: mcr.microsoft.com/dotnet/sdk
+  #   entrypoint: /usr/bin/tail -f /dev/null
+  #   volumes:
+  #     - dotnet:/usr/share/dotnet
+  #   extends:
+  #     service: common
+  #     file: ./common.yaml
 
   git:
     image: bitnami/git
@@ -59,13 +59,12 @@ services:
     image: ubuntu
     entrypoint: /usr/bin/tail -f /dev/null
     environment:
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/dotnet:/var/yarn/bin:/var/node:/var/pwsh:/var/docker:/var/git/bin:/var/openssh
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/yarn/bin:/var/node:/var/pwsh:/var/docker:/var/git/bin:/var/openssh
       LD_LIBRARY_PATH: /var/libcrypto:/var/libicu
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock:ro
-      - vscode:/home/workspace
-      - ssh:/root/.ssh
-      - dotnet:/var/dotnet:ro
+      - root:/root
+      # - dotnet:/var/dotnet:ro
       - docker:/var/docker:ro
       - node:/var/node:ro
       - pwsh:/var/pwsh:ro
@@ -89,16 +88,14 @@ services:
       file: ./common.yaml
 
 volumes:
-  ssh:
-    name: ssh
   fonts:
     name: fonts
-  vscode:
-    name: vscode
+  root:
+    name: root
   node:
     name: node
-  dotnet:
-    name: dotnet
+  # dotnet:
+  #   name: dotnet
   pwsh:
     name: pwsh
   docker:
