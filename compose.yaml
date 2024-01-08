@@ -11,15 +11,6 @@ services:
       service: common
       file: ./common.yaml
 
-  # dotnet:
-  #   image: mcr.microsoft.com/dotnet/sdk
-  #   entrypoint: /usr/bin/tail -f /dev/null
-  #   volumes:
-  #     - dotnet:/usr/share/dotnet
-  #   extends:
-  #     service: common
-  #     file: ./common.yaml
-
   git:
     image: bitnami/git
     entrypoint: /usr/bin/tail -f /dev/null
@@ -27,20 +18,6 @@ services:
       - git:/opt/bitnami/git
       - openssh:/usr/bin
       - libcrypto:/usr/lib/x86_64-linux-gnu
-    extends:
-      service: common
-      file: ./common.yaml
-
-  sqledge:
-    image: mcr.microsoft.com/azure-sql-edge
-    cap_add:
-      - "SYS_PTRACE"
-    environment:
-      ACCEPT_EULA: "1"
-      MSSQL_SA_PASSWORD: "4696048@Saman@Tabesh!"
-      MSSQL_PID: "Premium"
-    volumes:
-      - sqledge:/var/opt/mssql
     extends:
       service: common
       file: ./common.yaml
@@ -64,7 +41,6 @@ services:
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock:ro
       - root:/root
-      # - dotnet:/var/dotnet:ro
       - docker:/var/docker:ro
       - node:/var/node:ro
       - pwsh:/var/pwsh:ro
@@ -73,7 +49,6 @@ services:
       - openssh:/var/openssh:ro
       - libicu:/var/libicu:ro
       - libcrypto:/var/libcrypto:ro
-      # - fonts:/usr/local/share/fonts
     extends:
       service: common
       file: ./common.yaml
@@ -92,10 +67,6 @@ volumes:
     name: root
   node:
     name: node
-  # fonts:
-  #   name: fonts
-  # dotnet:
-  #   name: dotnet
   pwsh:
     name: pwsh
   docker:
@@ -104,10 +75,6 @@ volumes:
     name: libicu
   yarn:
     name: yarn
-  mssql:
-    name: mssql
-  sqledge:
-    name: sqledge
   git:
     name: git
   openssh:
