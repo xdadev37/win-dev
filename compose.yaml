@@ -22,33 +22,19 @@ services:
       service: common
       file: ./common.yaml
 
-  powershell:
-    image: mcr.microsoft.com/powershell
-    entrypoint: /usr/bin/tail -f /dev/null
-    volumes:
-      - pwsh:/opt/microsoft/powershell/7
-      - libicu:/usr/lib/x86_64-linux-gnu
-    extends:
-      service: common
-      file: ./common.yaml
-
-  ubuntu:
-    image: ubuntu
+  almalinux:
+    image: almalinux
     entrypoint: /usr/bin/tail -f /dev/null
     environment:
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/yarn/bin:/var/node:/var/pwsh:/var/docker:/var/git/bin:/var/openssh
-      LD_LIBRARY_PATH: /var/libcrypto:/var/libicu
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/yarn/bin:/var/node:/var/docker:/var/git/bin:/var/openssh
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock:ro
       - root:/root
       - docker:/var/docker:ro
       - node:/var/node:ro
-      - pwsh:/var/pwsh:ro
       - yarn:/var/yarn:ro
       - git:/var/git:ro
       - openssh:/var/openssh:ro
-      - libicu:/var/libicu:ro
-      - libcrypto:/var/libcrypto:ro
     extends:
       service: common
       file: ./common.yaml
@@ -67,12 +53,8 @@ volumes:
     name: root
   node:
     name: node
-  pwsh:
-    name: pwsh
   docker:
     name: docker
-  libicu:
-    name: libicu
   yarn:
     name: yarn
   git:
