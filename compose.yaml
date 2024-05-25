@@ -3,44 +3,14 @@ name: win-dev
 services:
   node:
     image: node
+    user: node
+    container_name: node
     entrypoint: /usr/bin/tail -f /dev/null
+    network_mode: host
+    restart: always
     volumes:
-      - node:/usr/local/bin
-      - yarn:/opt/yarn-v1.22.19
-    extends:
-      service: common
-      file: ./common.yaml
-
-  docker:
-    image: docker
-    privileged: true
-    volumes:
-      - docker:/usr/local/bin
-    extends:
-      service: common
-      file: ./common.yaml
-
-  zsh:
-    image: ohmyzsh/zsh
-    entrypoint: /usr/bin/tail -f /dev/null
-    environment:
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/yarn/bin:/var/node:/var/docker
-    volumes:
-      - //var/run/docker.sock:/var/run/docker.sock:ro
-      - root:/root
-      - docker:/var/docker:ro
-      - node:/var/node:ro
-      - yarn:/var/yarn:ro
-    extends:
-      service: common
-      file: ./common.yaml
+      - home:/home/node
 
 volumes:
-  root:
-    name: root
-  node:
-    name: node
-  docker:
-    name: docker
-  yarn:
-    name: yarn
+  home:
+    name: home
