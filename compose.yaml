@@ -11,39 +11,26 @@ services:
       service: common
       file: ./common.yaml
 
-  git:
-    image: bitnami/git
-    entrypoint: /usr/bin/tail -f /dev/null
+  docker:
+    image: docker
+    privileged: true
     volumes:
-      - git:/opt/bitnami/git
-      - openssh:/usr/bin
-      - libcrypto:/usr/lib/x86_64-linux-gnu
+      - docker:/usr/local/bin
     extends:
       service: common
       file: ./common.yaml
 
-  almalinux:
-    image: almalinux
+  zsh:
+    image: ohmyzsh/zsh
     entrypoint: /usr/bin/tail -f /dev/null
     environment:
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/yarn/bin:/var/node:/var/docker:/var/git/bin:/var/openssh
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/yarn/bin:/var/node:/var/docker
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock:ro
       - root:/root
       - docker:/var/docker:ro
       - node:/var/node:ro
       - yarn:/var/yarn:ro
-      - git:/var/git:ro
-      - openssh:/var/openssh:ro
-    extends:
-      service: common
-      file: ./common.yaml
-
-  docker:
-    image: docker
-    privileged: true
-    volumes:
-      - docker:/usr/local/bin
     extends:
       service: common
       file: ./common.yaml
@@ -57,9 +44,3 @@ volumes:
     name: docker
   yarn:
     name: yarn
-  git:
-    name: git
-  openssh:
-    name: openssh
-  libcrypto:
-    name: libcrypto
