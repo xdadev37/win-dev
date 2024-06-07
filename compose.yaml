@@ -10,8 +10,8 @@ services:
     networks:
       - win0dev
     volumes:
+      - "node:/home/node"
       - "../Projects:/home/node/Projects"
-      - "~/.ssh:/home/node/.ssh"
 
   nginx:
     image: nginx
@@ -33,3 +33,7 @@ services:
 networks:
   win0dev:
     name: win0dev
+
+volumes:
+  node:
+    name: node
