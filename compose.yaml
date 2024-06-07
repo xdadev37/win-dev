@@ -5,13 +5,14 @@ services:
     image: node
     user: node
     container_name: node
-    entrypoint: /usr/bin/tail -f /dev/null
+    command: --watch /home/node/node.txt
     restart: always
     networks:
       - win0dev
     volumes:
       - "node:/home/node"
       - "../Projects:/home/node/Projects"
+      - "./node.txt:/home/node/node.txt"
 
   nginx:
     image: nginx
