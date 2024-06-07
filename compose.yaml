@@ -10,12 +10,11 @@ services:
     networks:
       - win0dev
     volumes:
-      - "../Projects:~/Projects"
-      - "~/.ssh:~/.ssh"
+      - "../Projects:/home/node/Projects"
+      - "~/.ssh:/home/node/.ssh"
 
   nginx:
     image: nginx
-    user: nginx
     container_name: nginx
     restart: always
     networks:
