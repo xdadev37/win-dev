@@ -1,25 +1,12 @@
-name: win0dev
+name: nginx
 
 services:
-  node:
-    image: node
-    user: node
-    container_name: node
-    command: --watch /home/node/node.txt
-    restart: always
-    networks:
-      - win0dev
-    volumes:
-      - "node:/home/node"
-      - "../Projects:/home/node/Projects"
-      - "./node.txt:/home/node/node.txt"
-
   nginx:
     image: nginx
     container_name: nginx
     restart: always
     networks:
-      - win0dev
+      - nginx
     ports:
       - 80:80
       - 80:80/udp
@@ -33,9 +20,5 @@ services:
       - "./privkey.pem:/etc/nginx/privkey.pem:ro"
 
 networks:
-  win0dev:
-    name: win0dev
-
-volumes:
-  node:
-    name: node
+  nginx:
+    name: nginx
