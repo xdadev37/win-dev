@@ -5,10 +5,10 @@ services:
     image: node
     user: node
     container_name: node
-    command: --watch /home/node/node.txt
     restart: always
     network_mode: host
-    working_dir: /home/node/Projects
+    working_dir: /home/node
+    command: --watch ./node.txt
     volumes:
       - "node:/home/node"
       - "./node.txt:/home/node/node.txt"
