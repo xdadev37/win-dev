@@ -21,7 +21,7 @@ services:
 
   node:
     image: node
-    container_name: node
+    container_name: sepanta
     user: node
     restart: always
     networks:
