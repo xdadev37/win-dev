@@ -1,4 +1,4 @@
-name: nginx
+name: sepanta-dev
 
 services:
   nginx:
@@ -19,6 +19,27 @@ services:
       - "./fullchain.pem:/etc/nginx/fullchain.pem:ro"
       - "./privkey.pem:/etc/nginx/privkey.pem:ro"
 
+  node:
+    image: node
+    container_name: node
+    user: node
+    restart: always
+    networks:
+      - nginx
+    ports:
+      - 4433:4433
+      - 4433:4433/udp
+    working_dir: /home/node
+    command: --watch ./node.txt
+    volumes:
+      - "node:/home/node"
+      - "./node.txt:/home/node/node.txt"
+
 networks:
   nginx:
     name: nginx
+
+volumes:
+  node:
+    name: node
+    external: true
