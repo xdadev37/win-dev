@@ -13,6 +13,25 @@ services:
       - "node:/home/node"
       - "./node.txt:/home/node/node.txt"
 
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "admin"
+      MONGO_INITDB_ROOT_PASSWORD: "4696048"
+    volumes:
+      - "mongo:/data/db"
+
 volumes:
   node:
     name: node
+  mongo:
+    name: mongo
+
+networks:
+  mongo:
